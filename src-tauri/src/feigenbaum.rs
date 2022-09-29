@@ -1,5 +1,41 @@
+use std::{sync::mpsc, thread};
 
 pub fn plot(
+    a: f64,
+    b: f64,
+    dark_iters: usize,
+    final_iters: usize,
+    delta: f64,
+    init_size: usize,
+) -> (Vec<f64>, Vec<f64>) {
+    let mut res = (vec![], vec![]);
+    let cpus = num_cpus::get();
+    let interval = (b - a) / cpus as f64;
+    let (tx, rx) = mpsc::channel();
+    for i in 0..cpus {
+        let tx_copy = tx.clone();
+        thread::spawn(move || {
+            tx_copy
+                .send(simulate(
+                    a + i as f64 * interval,
+                    a + (i + 1) as f64 * interval,
+                    dark_iters,
+                    final_iters,
+                    delta,
+                    init_size,
+                ))
+                .unwrap();
+        });
+    }
+    drop(tx);
+    for mut received in rx {
+        res.0.append(&mut received.0);
+        res.1.append(&mut received.1);
+    }
+    res
+}
+
+fn simulate(
     a: f64,
     b: f64,
     dark_iters: usize,
