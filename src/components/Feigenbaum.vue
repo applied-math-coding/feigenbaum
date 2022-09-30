@@ -54,7 +54,10 @@ function handleCanvasClick() {
 </script>
 
 <template>
-  <h1 class="text-center">Bifurcation Diagram</h1>
+  <div class="mb-5">
+    <h1 class="mb-0">Bifurcation Diagram</h1>
+    <div class="text-sm text-center text-color-secondary">for \(x_{n+1}=rx_n(1-x_n)\)</div>
+  </div>
   <div class="control">
     <div>
       Dark Iterations:
