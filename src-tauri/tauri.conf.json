@@ -56,10 +56,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 800,
         "resizable": true,
-        "title": "feigenbaum",
-        "width": 800
+        "title": "Bifurcation Diagram",
+        "width": 1024
       }
     ]
   }
